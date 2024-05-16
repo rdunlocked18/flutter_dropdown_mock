@@ -8,13 +8,19 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var bloc = sl<HomeCubit>();
     return BlocConsumer<HomeCubit, HomeState>(
-      bloc: sl<HomeCubit>(),
+      bloc: bloc,
       listener: (context, state) {},
       builder: (context, state) {
-        return const Scaffold(
+        return Scaffold(
           body: Center(
-            child: Text('Working'),
+            child: ElevatedButton(
+              onPressed: () {
+                bloc.getList();
+              },
+              child: Text('Test'),
+            ),
           ),
         );
       },

@@ -1,8 +1,10 @@
-class Place {
+import 'package:equatable/equatable.dart';
+
+class Place extends Equatable {
   final int? id;
   final String? value;
 
-  Place({
+  const Place({
     this.id,
     this.value,
   });
@@ -15,4 +17,7 @@ class Place {
         'id': id,
         'value': value,
       };
+
+  @override
+  List<Object?> get props => [id, value];
 }
