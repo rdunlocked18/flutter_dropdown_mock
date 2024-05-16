@@ -19,10 +19,13 @@ class HomeRemoteDatasourceImpl extends HomeRemoteDatasource {
       var response = await networkClient.get(
         "${Constants.baseUrl}/${Constants.countries}",
       );
-      List data = response.data;
-      List<Place> actu =
-          data.map((element) => Place.fromJson(element)).toList();
-      return actu;
+      List placesList = response.data;
+      List<Place> result = placesList
+          .map(
+            (place) => Place.fromJson(place),
+          )
+          .toList();
+      return result;
     } catch (e) {
       throw ServerFailure(e.toString());
     }
@@ -30,7 +33,19 @@ class HomeRemoteDatasourceImpl extends HomeRemoteDatasource {
 
   @override
   Future<List<Place>> getStates({required int placeId}) async {
-    // TODO: implement getStates
-    throw UnimplementedError();
+    try {
+      var response = await networkClient.get(
+        "${Constants.baseUrl}/${Constants.countries}/$placeId/${Constants.states}",
+      );
+      List placesList = response.data;
+      List<Place> result = placesList
+          .map(
+            (place) => Place.fromJson(place),
+          )
+          .toList();
+      return result;
+    } catch (e) {
+      throw ServerFailure(e.toString());
+    }
   }
 }

@@ -16,17 +16,29 @@ class HomeRepositoryImpl extends HomeRepository {
 
   @override
   Future<Either<Failure, List<Place>>> getCountries() async {
-    try {
-      var result = await remoteDatasource.getAllCountries();
-      return Right(result);
-    } catch (e) {
-      return Left(ServerFailure('Error : $e'));
+    if (await networkInfo.isConnected) {
+      try {
+        var result = await remoteDatasource.getAllCountries();
+        return Right(result);
+      } catch (e) {
+        return Left(ServerFailure('Error : $e'));
+      }
+    } else {
+      return const Left(ServerFailure("Please Connect to Internet"));
     }
   }
 
   @override
-  Future<Either<Failure, List<Place>>> getStates({required int placeId}) {
-    // TODO: implement getStates
-    throw UnimplementedError();
+  Future<Either<Failure, List<Place>>> getStates({required int placeId}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        var result = await remoteDatasource.getStates(placeId: placeId);
+        return Right(result);
+      } catch (e) {
+        return Left(ServerFailure('Error : $e'));
+      }
+    } else {
+      return const Left(ServerFailure("Please Connect to Internet"));
+    }
   }
 }
