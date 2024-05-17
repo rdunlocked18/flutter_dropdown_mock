@@ -9,6 +9,7 @@ class Constants {
   static const String yourSelectedState = 'Your Selected State :';
   static const String yourSelectedCountry = 'Your Selected Country :';
   static const String reselectPlace = 'Reselect Place';
+  static const String retry = 'Retry';
 
   // NETWORK
   static const String baseUrl = 'https://api.stagingcupid.com/api/v1';

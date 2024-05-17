@@ -28,9 +28,13 @@ class _HomePageState extends State<HomePage> {
       bloc: cubit,
       listener: (context, state) async {
         if (state is HomeError) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(state.message),
-          ));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(Constants.padding_16),
+            ),
+          );
         }
         if (state is HomeStatesLoaded && state.isValid) {
           Navigator.of(context).pushReplacement(
@@ -57,6 +61,16 @@ class _HomePageState extends State<HomePage> {
                     gradientColors: AppColors.defaultGradientColors,
                   ),
                 ),
+                if (state is HomeError)
+                  Center(
+                    child: TextButton.icon(
+                      label: Text(Constants.retry),
+                      icon: Icon(Icons.refresh),
+                      onPressed: () {
+                        cubit.loadCountries();
+                      },
+                    ),
+                  ),
                 if (state is HomeStatesLoaded) getLoadedSateWidgets(state),
                 if (state is HomeLoading)
                   Dialog.fullscreen(
