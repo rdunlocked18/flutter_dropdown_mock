@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_mock/core/injector.dart';
@@ -26,18 +24,22 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeState>(
       bloc: cubit,
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is HomeError) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(state.message),
-          ));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.all(Constants.padding_16),
+            ),
+          );
         }
         if (state is HomeStatesLoaded && state.isValid) {
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => ProfilePage(
-                selectedCountry: state.stateSelection,
-                selectedState: state.countrySelection,
+                selectedCountry: state.countrySelection,
+                selectedState: state.stateSelection,
               ),
             ),
           );
@@ -57,6 +59,16 @@ class _HomePageState extends State<HomePage> {
                     gradientColors: AppColors.defaultGradientColors,
                   ),
                 ),
+                if (state is HomeError)
+                  Center(
+                    child: TextButton.icon(
+                      label: const Text(Constants.retry),
+                      icon: const Icon(Icons.refresh),
+                      onPressed: () {
+                        cubit.loadCountries();
+                      },
+                    ),
+                  ),
                 if (state is HomeStatesLoaded) getLoadedSateWidgets(state),
                 if (state is HomeLoading)
                   Dialog.fullscreen(
@@ -74,8 +86,8 @@ class _HomePageState extends State<HomePage> {
               cubit.submitClicked(formKey);
             },
             child: Container(
-              height: 72,
-              decoration: BoxDecoration(
+              height: Constants.size_72,
+              decoration: const BoxDecoration(
                 color: AppColors.black,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(Constants.radius_12),
@@ -87,16 +99,16 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Submit',
+                      Constants.submit,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontSize: 20,
+                          fontSize: Constants.size_20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_right,
                       color: AppColors.white,
-                      size: 32,
+                      size: Constants.size_32,
                     ),
                   ],
                 ),
@@ -147,7 +159,7 @@ class _HomePageState extends State<HomePage> {
               },
               selection: state.countrySelection,
               hint: Constants.selectCountry,
-              errorMessage: "Please ${Constants.selectCountry}",
+              errorMessage: "${Constants.please} ${Constants.selectCountry}",
             ),
             const SizedBox(
               height: Constants.size_10,
@@ -159,7 +171,7 @@ class _HomePageState extends State<HomePage> {
               },
               selection: state.stateSelection,
               hint: Constants.selectState,
-              errorMessage: "Please ${Constants.selectState}",
+              errorMessage: "${Constants.please} ${Constants.selectState}",
             ),
           ],
         ),
