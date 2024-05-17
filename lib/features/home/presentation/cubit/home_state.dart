@@ -18,7 +18,7 @@ class HomeStatesLoaded extends HomeState {
   final Place? stateSelection;
 
   const HomeStatesLoaded({
-    required this.states,
+    this.states,
     this.countries,
     this.countrySelection,
     this.stateSelection,

@@ -1,8 +1,14 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_mock/core/injector.dart';
+import 'package:flutter_dropdown_mock/core/utils/app_colors.dart';
+import 'package:flutter_dropdown_mock/core/utils/constants.dart';
 import 'package:flutter_dropdown_mock/features/home/data/models/place.dart';
 import 'package:flutter_dropdown_mock/features/home/presentation/cubit/home_cubit.dart';
+
+import '../../../../core/shared/bezier_container_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,20 +18,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var bloc = sl<HomeCubit>();
-  Place? selectedCountry;
-  Place? selectedState;
-
-  @override
-  void initState() {
-    bloc.loadCountries();
-    super.initState();
-  }
+  var cubit = sl<HomeCubit>();
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeState>(
-      bloc: bloc,
+      bloc: cubit,
       listener: (context, state) {
         if (state is HomeError) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -38,10 +36,20 @@ class _HomePageState extends State<HomePage> {
           body: Center(
             child: Stack(
               children: [
+                Positioned(
+                  top:
+                      -MediaQuery.of(context).size.height * Constants.size_0_15,
+                  right:
+                      -MediaQuery.of(context).size.width * Constants.size_0_4,
+                  child: const BezierContainer(
+                    gradientColors: AppColors.defaultGradientColors,
+                  ),
+                ),
                 if (state is HomeStatesLoaded) getLoadedSateWidgets(state),
                 if (state is HomeLoading)
                   Dialog.fullscreen(
-                    backgroundColor: Colors.black.withOpacity(0.4),
+                    backgroundColor:
+                        AppColors.black.withOpacity(Constants.size_0_4),
                     child: const Center(
                       child: CircularProgressIndicator(),
                     ),
@@ -56,50 +64,46 @@ class _HomePageState extends State<HomePage> {
 
   Widget getLoadedSateWidgets(HomeStatesLoaded state) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(Constants.padding_16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          DropdownButtonFormField(
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12.0),
-                ),
-              ),
-              contentPadding: EdgeInsets.all(16),
+          const SizedBox(
+            height: kToolbarHeight,
+          ),
+          const Text(
+            Constants.welcomeMessage,
+            style: TextStyle(
+              fontSize: Constants.size_32,
+              fontWeight: FontWeight.bold,
             ),
-            value: state.stateSelection,
-            hint: const Text('Select State'),
-            icon: const Icon(Icons.keyboard_arrow_down),
-            items: state.states?.map((Place items) {
-                  return DropdownMenuItem(
-                    value: items,
-                    child: Text(items.value ?? ''),
-                  );
-                }).toList() ??
-                [],
-            onChanged: (ewValue) {
-              bloc.selectState(ewValue as Place);
-            },
           ),
           const SizedBox(
-            height: 10,
+            height: 5,
           ),
-          DropdownButtonFormField(
-            decoration: const InputDecoration(
+          const Text(
+            Constants.completeProfile,
+            style: TextStyle(
+              fontSize: Constants.size_20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
+            height: Constants.size_20,
+          ),
+          DropdownButtonFormField<Place>(
+            isDense: true,
+            isExpanded: false,
+            decoration: InputDecoration(
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12.0),
-                ),
+                borderRadius: BorderRadius.circular(Constants.radius_12),
               ),
-              contentPadding: EdgeInsets.all(16),
+              contentPadding: EdgeInsets.all(Constants.padding_16),
             ),
             value: state.countrySelection,
-            hint: const Text('Select Country'),
+            hint: const Text(Constants.selectCountry),
             icon: const Icon(Icons.keyboard_arrow_down),
-            padding: const EdgeInsets.all(4),
             items: state.countries?.map((Place items) {
               return DropdownMenuItem(
                 value: items,
@@ -107,7 +111,30 @@ class _HomePageState extends State<HomePage> {
               );
             }).toList(),
             onChanged: (value) {
-              bloc.selectCountry(value as Place);
+              cubit.selectCountry(value);
+            },
+          ),
+          const SizedBox(
+            height: Constants.size_10,
+          ),
+          DropdownButtonFormField<Place>(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(Constants.radius_12),
+              ),
+              contentPadding: EdgeInsets.all(Constants.padding_16),
+            ),
+            value: state.stateSelection,
+            hint: const Text(Constants.selectState),
+            icon: const Icon(Icons.keyboard_arrow_down),
+            items: state.states?.map((Place items) {
+              return DropdownMenuItem(
+                value: items,
+                child: Text(items.value ?? ''),
+              );
+            }).toList(),
+            onChanged: (ewValue) {
+              cubit.selectState(ewValue);
             },
           ),
         ],

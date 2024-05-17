@@ -7,7 +7,10 @@ part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final HomeRepository homeRepository;
-  HomeCubit({required this.homeRepository}) : super(HomeInitial());
+  HomeCubit({required this.homeRepository}) : super(HomeInitial()) {
+    loadCountries();
+  }
+  // Save State values
   List<Place> countries = [];
   List<Place> states = [];
   Place? selectedCountry;
@@ -15,6 +18,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> loadCountries() async {
     emit(HomeLoading());
+    countries = [];
     var countriesOrFailure = await homeRepository.getCountries();
     countriesOrFailure.fold(
       (failure) {
@@ -30,7 +34,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> loadSates(int id) async {
-    // emit(HomeLoading());
     var statesOrFailure = await homeRepository.getStates(placeId: id);
     statesOrFailure.fold(
       (failure) {
@@ -50,25 +53,24 @@ class HomeCubit extends Cubit<HomeState> {
 
   void selectCountry(Place? country) {
     selectedCountry = country;
+    states = [];
+    selectedState = null;
+
     emit(HomeStatesLoaded(
-      states: states,
-      countries: countries,
-      countrySelection: country,
-    ));
+        states: states,
+        countries: countries,
+        countrySelection: selectedCountry,
+        stateSelection: selectedState));
+
     loadSates(country?.id ?? 0);
   }
 
   void selectState(Place? selection) {
     selectedState = selection;
     emit(HomeStatesLoaded(
-      states: states,
-      countries: countries,
-      countrySelection: selectedCountry,
-      stateSelection: selection,
-    ));
-  }
-
-  void testAPI() {
-    homeRepository.getStates(placeId: 1);
+        states: states,
+        countries: countries,
+        countrySelection: selectedCountry,
+        stateSelection: selection));
   }
 }
