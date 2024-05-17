@@ -26,14 +26,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeState>(
       bloc: cubit,
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is HomeError) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.message),
           ));
         }
         if (state is HomeStatesLoaded && state.isValid) {
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => ProfilePage(
                 selectedCountry: state.stateSelection,
