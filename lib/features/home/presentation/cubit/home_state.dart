@@ -16,12 +16,14 @@ class HomeStatesLoaded extends HomeState {
   final List<Place>? countries;
   final Place? countrySelection;
   final Place? stateSelection;
+  final bool isValid;
 
   const HomeStatesLoaded({
     this.states,
     this.countries,
     this.countrySelection,
     this.stateSelection,
+    this.isValid = false,
   });
 
   @override
@@ -30,6 +32,7 @@ class HomeStatesLoaded extends HomeState {
         countries,
         countrySelection,
         stateSelection,
+        isValid,
       ];
 }
 

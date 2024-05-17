@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_dropdown_mock/features/home/data/models/place.dart';
@@ -72,5 +73,17 @@ class HomeCubit extends Cubit<HomeState> {
         countries: countries,
         countrySelection: selectedCountry,
         stateSelection: selection));
+  }
+
+  void submitClicked(GlobalKey<FormState> formKey) {
+    emit(
+      HomeStatesLoaded(
+        states: states,
+        countries: countries,
+        countrySelection: selectedCountry,
+        stateSelection: selectedState,
+        isValid: formKey.currentState?.validate() ?? false,
+      ),
+    );
   }
 }

@@ -26,10 +26,14 @@ class Constants {
   // num,double,int - Sizes,height,widths
   static const double size_0_15 = 0.15;
   static const double size_0_5 = 0.5;
-    static const double size_0_4 = 0.4;
-  static const double padding_16 = 16.0;
+  static const double size_3_5 = 3.5;
+  static const double size_0_4 = 0.4;
+  static const double size_5 = 5.0;
   static const double size_20 = 20.0;
   static const double size_10 = 10.0;
   static const double size_32 = 32.0;
+  //
+  static const double padding_16 = 16.0;
+  //
   static const double radius_12 = 12.0;
 }

@@ -16,7 +16,7 @@ class BezierContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Pulse(
       child: Transform.rotate(
-        angle: -pi / 3.5,
+        angle: -pi / Constants.size_3_5,
         child: ClipPath(
           clipper: ClipPainter(),
           child: Container(
