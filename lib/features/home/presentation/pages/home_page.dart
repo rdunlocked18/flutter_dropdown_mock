@@ -38,8 +38,8 @@ class _HomePageState extends State<HomePage> {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => ProfilePage(
-                selectedCountry: state.stateSelection,
-                selectedState: state.countrySelection,
+                selectedCountry: state.countrySelection,
+                selectedState: state.stateSelection,
               ),
             ),
           );
