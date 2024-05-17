@@ -13,6 +13,9 @@ class HomeRemoteDatasourceImpl extends HomeRemoteDatasource {
 
   HomeRemoteDatasourceImpl({required this.networkClient});
 
+  /// [getAllCountries]
+  /// uses networkClient current : [Dio]
+  /// GET API call to get response of AllCountries
   @override
   Future<List<Place>> getAllCountries() async {
     try {
@@ -31,6 +34,9 @@ class HomeRemoteDatasourceImpl extends HomeRemoteDatasource {
     }
   }
 
+  /// [getStates]
+  /// uses networkClient current : [Dio]
+  /// GET API call to get response of all states for one [countryId]/[placeId]
   @override
   Future<List<Place>> getStates({required int placeId}) async {
     try {

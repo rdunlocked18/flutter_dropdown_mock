@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_mock/core/injector.dart';
@@ -32,7 +30,7 @@ class _HomePageState extends State<HomePage> {
             SnackBar(
               content: Text(state.message),
               behavior: SnackBarBehavior.floating,
-              margin: EdgeInsets.all(Constants.padding_16),
+              margin: const EdgeInsets.all(Constants.padding_16),
             ),
           );
         }
@@ -64,8 +62,8 @@ class _HomePageState extends State<HomePage> {
                 if (state is HomeError)
                   Center(
                     child: TextButton.icon(
-                      label: Text(Constants.retry),
-                      icon: Icon(Icons.refresh),
+                      label: const Text(Constants.retry),
+                      icon: const Icon(Icons.refresh),
                       onPressed: () {
                         cubit.loadCountries();
                       },
@@ -88,8 +86,8 @@ class _HomePageState extends State<HomePage> {
               cubit.submitClicked(formKey);
             },
             child: Container(
-              height: 72,
-              decoration: BoxDecoration(
+              height: Constants.size_72,
+              decoration: const BoxDecoration(
                 color: AppColors.black,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(Constants.radius_12),
@@ -101,16 +99,16 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Submit',
+                      Constants.submit,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontSize: 20,
+                          fontSize: Constants.size_20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_right,
                       color: AppColors.white,
-                      size: 32,
+                      size: Constants.size_32,
                     ),
                   ],
                 ),
@@ -161,7 +159,7 @@ class _HomePageState extends State<HomePage> {
               },
               selection: state.countrySelection,
               hint: Constants.selectCountry,
-              errorMessage: "Please ${Constants.selectCountry}",
+              errorMessage: "${Constants.please} ${Constants.selectCountry}",
             ),
             const SizedBox(
               height: Constants.size_10,
@@ -173,7 +171,7 @@ class _HomePageState extends State<HomePage> {
               },
               selection: state.stateSelection,
               hint: Constants.selectState,
-              errorMessage: "Please ${Constants.selectState}",
+              errorMessage: "${Constants.please} ${Constants.selectState}",
             ),
           ],
         ),

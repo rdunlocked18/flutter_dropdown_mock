@@ -17,6 +17,9 @@ class HomeCubit extends Cubit<HomeState> {
   Place? selectedCountry;
   Place? selectedState;
 
+  /// [loadCountries]
+  /// Loads the Countries from calling Repository.remoteDatasource
+  /// retruns [List<Place>] as countries and stores in buffer
   Future<void> loadCountries() async {
     emit(HomeLoading());
     countries = [];
@@ -34,6 +37,9 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
+  /// [loadStates]
+  /// Loads the state for specific country[id]
+  /// [id] currently selected CountryId [Place.id]
   Future<void> loadSates(int id) async {
     var statesOrFailure = await homeRepository.getStates(placeId: id);
     statesOrFailure.fold(
@@ -52,6 +58,8 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
+  /// On Country Dropdown Value selected
+  /// selects [Place] as Current Selection
   void selectCountry(Place? country) {
     selectedCountry = country;
     states = [];
@@ -66,6 +74,8 @@ class HomeCubit extends Cubit<HomeState> {
     loadSates(country?.id ?? 0);
   }
 
+  /// On State Dropdown Value selected
+  /// selects [Place] as Current State Selection
   void selectState(Place? selection) {
     selectedState = selection;
     emit(HomeStatesLoaded(
@@ -75,6 +85,9 @@ class HomeCubit extends Cubit<HomeState> {
         stateSelection: selection));
   }
 
+  /// Submit Button Callback
+  /// validates form and returns [isValid]
+  /// isValid then ? listener, else : stay on same State
   void submitClicked(GlobalKey<FormState> formKey) {
     emit(
       HomeStatesLoaded(

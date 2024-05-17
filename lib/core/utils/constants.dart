@@ -10,6 +10,9 @@ class Constants {
   static const String yourSelectedCountry = 'Your Selected Country :';
   static const String reselectPlace = 'Reselect Place';
   static const String retry = 'Retry';
+  static const String submit = 'Submit';
+  static const String please = 'Please';
+  static const String pleaseConnectToInternet = 'Please Connect to Internet';
 
   // NETWORK
   static const String baseUrl = 'https://api.stagingcupid.com/api/v1';
@@ -17,6 +20,7 @@ class Constants {
       'https://www.flippies.art/penguins/Flipper10.png';
   static const String states = 'states';
   static const String cities = 'cities';
+  static const String networkEnvPath = 'lib/core/network/.env';
 
   // HEADER - KEYs
   static const String headerXAPIKey = 'x-api-key';
@@ -38,6 +42,7 @@ class Constants {
   static const double size_20 = 20.0;
   static const double size_10 = 10.0;
   static const double size_32 = 32.0;
+  static const double size_72 = 72.0;
   //
   static const double padding_16 = 16.0;
   //
