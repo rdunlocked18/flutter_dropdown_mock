@@ -1,7 +1,7 @@
 name: flutter_dropdown_mock
 description: "A new Flutter project."
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -14,17 +14,11 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-   # Service locator
   get_it: ^7.7.0
-  # Bloc for state management
   flutter_bloc: ^8.1.5
-  # Value equality
   equatable: ^2.0.5
-  # Functional programming thingies
   dartz: ^0.10.1
-  # Remote API
   internet_connection_checker: ^1.0.0+1
-  # Local cache
   mocktail: ^0.3.0
   dio: ^5.4.3+1
   flutter_dotenv: ^5.1.0
